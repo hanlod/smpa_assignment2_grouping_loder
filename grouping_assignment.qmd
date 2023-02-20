@@ -113,9 +113,17 @@ Which recipient (recipient_name) was paid the most in the 2020 election cycle?
 
 ```{r}
 
+# I filtered by the 2020 election cycle and grouped by recipient name. Then I created
+# a summarise function to tell me the total amount the recipient received. Then I arranged that
+# to give the highest number first. 
 
-
-
+payments %>% 
+  filter(election_cycle == 2020) %>% 
+  group_by(recipient_name) %>% 
+  summarise(recipreceive = sum(disbursement_amount)) %>% 
+  arrange(desc(recipreceive))
+  
+# American Made Media Consultants, LLC, received the most money in the 2020 election cycle.
 
 
 
@@ -125,10 +133,18 @@ Look at what this recipient was paid for. What service or good (see the "disburs
 
 ```{r}
 
+# I filtered by election cycle to only show the 2020 cycle, and I filtered by the 
+# specific recipient I'm looking at. I grouped by the disbursement description and totaled
+# up the amount received for that description. Then I arranged it in descending order to 
+# show what they were paid most for. 
 
+payments %>% 
+  filter(election_cycle == 2020, recipient_name == "AMERICAN MADE MEDIA CONSULTANTS, LLC") %>% 
+  group_by(disbursement_description) %>% 
+  summarise(recipreceive = sum(disbursement_amount)) %>% 
+  arrange(desc(recipreceive))
 
-
-
+# American Made Media Consultants, LLC, was paid most for "placed media".
 
 ```
 
