@@ -61,11 +61,11 @@ Take a moment to look at the various categories included for each disbursement.
 
 Without doing any analysis yet, what are three questions you might try to answer using this dataset? Write your narrative answers in the spaces below.
 
-1.  
+1.  Did Trump disburse more money to individuals or organizations? 
 
-2.  
+2.  Which states did he send the most money to? (including individuals and organizations)
 
-3.  
+3.  During which election cycle did he spend the most money? 
 
 ## Coding Assignment Questions
 
@@ -81,10 +81,13 @@ How much was spent in the 2017 vs. 2018 reporting year?
 
 ```{r}
 
+# I grouped by reporting year because 2017 and 2018 are the only reporting years,
+# and I made a category for the sum to find the total spent. 
 
-
-
-
+payments %>% 
+  group_by(report_year) %>% 
+  summarise(totalspent = sum(disbursement_amount))
+  
 
 
 ```
@@ -93,10 +96,16 @@ Tally the total overall disbursement amounts for each month (distinguishing betw
 
 ```{r}
 
+# I grouped by month and year and included the summarise function to find the total
+# disbursement amount each month in each year. Then I arranged it to show the month 
+# with the highest spending first. 
 
+payments %>% 
+  group_by(disbursement_month, disbursement_year) %>% 
+  summarise(totalspent = sum(disbursement_amount)) %>% 
+  arrange(desc(totalspent))
 
-
-
+# Spending was the highest in October 2018. 
 
 ```
 
