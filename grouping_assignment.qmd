@@ -152,10 +152,16 @@ What's the most common category overall (see "disbursement_description") the cam
 
 ```{r}
 
+# I grouped by disbursement description for all of the data. Then I used the summarise 
+# function to count how many times that description showed up. Then I arranged it in 
+# descending order to see what showed up the most.
 
+payments %>% 
+  group_by(disbursement_description) %>% 
+  summarise(count = n()) %>% 
+  arrange(desc(count))
 
-
-
+# The campaign spent money on "merchant fees" most often. 
 
 ```
 
@@ -163,11 +169,19 @@ Who were the 5 biggest recipients of campaign spending on "LEGAL CONSULTING"..?
 
 ```{r}
 
+# I filtered by "legal consulting" and then I grouped by recipients. Then I used the sum 
+# function to find out who received the most money. I arranged it in descending order
+# and chose to only see the top 5 recipients. 
+
+payments %>% 
+  filter(disbursement_description == "LEGAL CONSULTING") %>% 
+  group_by(recipient_name) %>% 
+  summarise(totalamount = sum(disbursement_amount)) %>% 
+  arrange(desc(totalamount)) %>% 
+  top_n(5)
 
 
-
-
-
+# The 5 biggest recipients are listed below when the code is run. 
 
 ```
 
@@ -176,11 +190,17 @@ Who are the top 5 individuals (vs. organization) were paid by the campaign commi
 
 ```{r}
 
+# I grouped by entity type and recipient name. Then I totaled up how much they were paid 
+# and organized that in descending order. Then I chose to show the top 5 answers for 
+# each entity. 
 
-
-
-
-
+payments %>% 
+  group_by(entity_type, recipient_name) %>% 
+  summarise(amountpaid = sum(disbursement_amount)) %>% 
+  arrange(desc(amountpaid)) %>% 
+  top_n(5)
+  
+# The top 5 individuals and organizations are listed below when the code is run. 
 
 ```
 
@@ -189,10 +209,17 @@ For the indvidual who was paid the most, which payment category (disbursement_de
 
 ```{r}
 
+# I filtered by Michael Glassner and grouped by the disbursement description. Then I 
+# totaled the amount for the category, organized it in descending order and chose to
+# only show the top answer. 
 
+payments %>% 
+  filter(recipient_name == "GLASSNER, MICHAEL") %>% 
+  group_by(disbursement_description) %>% 
+  summarise(amountcategory = sum(disbursement_amount)) %>% 
+  arrange(desc(amountcategory)) %>% 
+  top_n(1)
 
-
-
-
+# The payment category was "payroll," and Michael was paid 499000 dollars. 
 
 ```
